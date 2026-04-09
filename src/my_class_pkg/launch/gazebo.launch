@@ -1,0 +1,17 @@
+<launch>
+  <!-- 加载xacro文件 -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find my_class_pkg)/xacro/simple_robot.xacro'" />
+  
+  <!-- 启动Gazebo空世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+  
+  <!-- 生成机器人 -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
+        args="-param robot_description -urdf -model simple_robot -x 0 -y 0 -z 0" />
+  
+  <!-- 发布TF变换 -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+</launch>
